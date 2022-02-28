@@ -9,6 +9,10 @@ What has been updated:
 - Fixed recent update issue with fps degradation
 - Fixed problem with new Valve protection
 
+Update 1.0:
+- Fixed box stroke
+- Fixed weapon names
+
 Menu:
 ![Screenshot_2](https://user-images.githubusercontent.com/37377502/155980867-c1023e69-144e-4e0a-a370-5ca54c2c05a4.png)
 
