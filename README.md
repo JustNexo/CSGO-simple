@@ -22,7 +22,7 @@ Update 1.1:
 - Add prediction
 - Add auto strafe
 - Add grenade prediction
-- Add direct x render
+- Add direct_x render
 - Fixed small bugs
 
 Menu:
