@@ -1,4 +1,4 @@
-# csgo_sdk
+# 💤 csgo_sdk 💤
 Modified CSGOSimple repository
 
 What has been updated:
