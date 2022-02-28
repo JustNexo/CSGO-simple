@@ -1,4 +1,9 @@
 # 💤 csgo_sdk 💤
+
+![GitHub issues](https://img.shields.io/github/issues/xsslize/csgo_sdk)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/xsslize/csgo_sdk)
+![GitHub all releases](https://img.shields.io/github/downloads/xsslize/csgo_sdk/total)
+
 Modified CSGOSimple repository
 
 What has been updated:
