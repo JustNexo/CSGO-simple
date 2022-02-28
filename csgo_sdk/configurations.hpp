@@ -46,6 +46,7 @@ public:
 		CONFIGURATION(bool, esp_defuse_kit, false);
 		CONFIGURATION(bool, esp_planted_c4, false);
 		CONFIGURATION(bool, esp_items, false);
+		CONFIGURATION(bool, esp_grenade_prediction, false);
 
 		// 
 		// GLOW
@@ -91,6 +92,7 @@ public:
 		// MISC
 		//
 		CONFIGURATION(bool, misc_bhop, false);
+		CONFIGURATION(bool, misc_autostrafe, false);
 		CONFIGURATION(bool, misc_no_hands, false);
 		CONFIGURATION(bool, misc_thirdperson, false);
 		CONFIGURATION(bool, misc_showranks, true);
@@ -113,6 +115,7 @@ public:
 		CONFIGURATION(Color, color_esp_defuse, Color(255, 255, 255));
 		CONFIGURATION(Color, color_esp_c4, Color(255, 255, 255));
 		CONFIGURATION(Color, color_esp_item, Color(255, 255, 255));
+		CONFIGURATION(Color, color_grenade_prediction, Color(255, 255, 255));
 
 		CONFIGURATION(Color, color_glow_ally, Color(255, 255, 255));
 		CONFIGURATION(Color, color_glow_enemy, Color(255, 255, 255));

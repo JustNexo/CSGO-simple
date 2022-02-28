@@ -1,13 +1,13 @@
 #include <algorithm>
 
 #include "visuals.hpp"
+#include "grenade_pred.hpp"
 
 #include "../configurations.hpp"
 #include "../sdk/utils/math.hpp"
 #include "../sdk/utils/utils.hpp"
 
 #include "../imgui/imgui.h"
-
 
 RECT GetBBox(C_BaseEntity* ent)
 {
@@ -115,6 +115,7 @@ bool Visuals::Player::Begin(C_BasePlayer* pl)
 
 	return true;
 }
+
 void Visuals::Player::RenderBox() 
 {
 	Render::Get().RenderBoxByType(ctx.bbox.left, ctx.bbox.top, ctx.bbox.right, ctx.bbox.bottom, ctx.clr, 1);
@@ -382,6 +383,9 @@ void Visuals::ThirdPerson()
 
 void Visuals::AddToDrawList() 
 {
+	if (g_Configurations.esp_grenade_prediction)
+		Grenade_Pred::Get().DrawPrediction();
+
 	for (auto i = 1; i <= g_EntityList->GetHighestEntityIndex(); ++i) 
 	{
 		auto entity = C_BaseEntity::GetEntityByIndex(i);

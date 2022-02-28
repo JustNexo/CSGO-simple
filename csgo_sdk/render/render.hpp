@@ -21,11 +21,9 @@
 extern ImFont* g_pDefaultFont;
 extern ImFont* g_pSecondFont;
 
-
 class Vector;
 
-class Render
-	: public Singleton<Render>
+class Render : public Singleton<Render>
 {
 	friend class Singleton<Render>;
 

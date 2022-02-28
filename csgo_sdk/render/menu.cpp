@@ -16,6 +16,8 @@
 #include "../imgui/imgui_impl_dx9.h"
 #include "../imgui/imgui_impl_win32.h"
 
+#include "../functions/misc.hpp"
+
 
 static char* sidebar_tabs[] = 
 {
@@ -113,6 +115,7 @@ void RenderEspTab()
         ImGui::Checkbox("Defuse Kit", g_Configurations.esp_defuse_kit);
         ImGui::Checkbox("Planted C4", g_Configurations.esp_planted_c4);
         ImGui::Checkbox("Item Esp", g_Configurations.esp_items);
+        ImGui::Checkbox("Grenade prediction", g_Configurations.esp_grenade_prediction);
 
         ImGui::NextColumn();
 
@@ -126,6 +129,7 @@ void RenderEspTab()
         ImGuiEx::ColorEdit3("Defuse Kit", g_Configurations.color_esp_defuse);
         ImGuiEx::ColorEdit3("Planted C4", g_Configurations.color_esp_c4);
         ImGuiEx::ColorEdit3("Item Esp", g_Configurations.color_esp_item);
+        ImGuiEx::ColorEdit3("Grenade prediction", g_Configurations.color_grenade_prediction);
         ImGui::PopItemWidth();
 
         ImGui::Columns(1, nullptr, false);
@@ -258,6 +262,7 @@ void RenderMiscTab()
         ImGui::Columns(2, nullptr, false);
 
         ImGui::Checkbox("Bunny hop", g_Configurations.misc_bhop);
+        ImGui::Checkbox("Auto strafe", g_Configurations.misc_autostrafe);
 		ImGui::Checkbox("Third Person", g_Configurations.misc_thirdperson);
 
 		if(g_Configurations.misc_thirdperson)

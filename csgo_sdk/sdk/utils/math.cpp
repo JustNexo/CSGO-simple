@@ -147,5 +147,14 @@ namespace Math
         }
         return false;
     }
+    float NormalizeYaw(float value)
+    {
+        while (value > 180)
+            value -= 360.f;
+
+        while (value < -180)
+            value += 360.f;
+        return value;
+    }
     //--------------------------------------------------------------------------------
 }

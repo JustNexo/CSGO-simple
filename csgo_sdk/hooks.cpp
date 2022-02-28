@@ -10,6 +10,9 @@
 #include "functions/chams.hpp"
 #include "functions/visuals.hpp"
 #include "functions/glow.hpp"
+#include "functions/misc.hpp"
+#include "functions/prediction.hpp"
+#include "functions/grenade_pred.hpp"
 
 #pragma intrinsic(_ReturnAddress)
 
@@ -156,9 +159,18 @@ namespace Hooks
 		if (g_Configurations.misc_bhop)
 			BunnyHop::OnCreateMove(cmd);
 
+		if (g_Configurations.misc_autostrafe)
+			Misc::Get().AutoStrafe(cmd);
+
 		if (g_Configurations.misc_showranks && cmd->buttons & IN_SCORE)
 			g_CHLClient->DispatchUserMessage(CS_UM_ServerRankRevealAll, 0, 0, nullptr);
 
+		Engine_Prediction::Get().Begin(cmd);
+		{
+			if (g_Configurations.esp_grenade_prediction)
+				Grenade_Pred::Get().Trace(cmd);
+		}
+		Engine_Prediction::Get().End();
 
 		verified->m_cmd = *cmd;
 		verified->m_crc = cmd->GetChecksum();
