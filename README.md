@@ -1,4 +1,9 @@
-# csgo_sdk
+# 💤 csgo_sdk 💤
+
+![GitHub issues](https://img.shields.io/github/issues/xsslize/csgo_sdk)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/xsslize/csgo_sdk)
+![GitHub all releases](https://img.shields.io/github/downloads/xsslize/csgo_sdk/total)
+
 Modified CSGOSimple repository
 
 What has been updated:
@@ -8,6 +13,10 @@ What has been updated:
 - Made rebuilding project files in a more convenient form
 - Fixed recent update issue with fps degradation
 - Fixed problem with new Valve protection
+
+Update 1.0:
+- Fixed box stroke
+- Fixed weapon names
 
 Menu:
 ![Screenshot_2](https://user-images.githubusercontent.com/37377502/155980867-c1023e69-144e-4e0a-a370-5ca54c2c05a4.png)
