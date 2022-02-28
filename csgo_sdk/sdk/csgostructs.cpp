@@ -165,6 +165,124 @@ bool* C_BaseCombatWeapon::m_bCustomMaterialInitialized()
 	return (bool*)((uintptr_t)this + currentCommand);
 }
 
+std::string C_BaseCombatWeapon::get_name()
+{
+	if (!this)
+		return " ";
+
+	switch (this->m_Item().m_iItemDefinitionIndex())
+	{
+	case WEAPON_KNIFE:
+		return "Knife";
+	case WEAPON_KNIFE_T:
+		return "Knife";
+	case WEAPON_BAYONET:
+		return "Bayonet";
+	case WEAPON_KNIFE_SURVIVAL_BOWIE:
+		return "Survival Bowie";
+	case WEAPON_KNIFE_BUTTERFLY:
+		return "Butterfly";
+	case WEAPON_KNIFE_FALCHION:
+		return "Falchion";
+	case WEAPON_KNIFE_FLIP:
+		return "Flip";
+	case WEAPON_KNIFE_GUT:
+		return "Gut";
+	case WEAPON_KNIFE_KARAMBIT:
+		return "Karambit";
+	case WEAPON_KNIFE_M9_BAYONET:
+		return "M9 Bayonet";
+	case WEAPON_KNIFE_TACTICAL:
+		return "Tactical";
+	case WEAPON_KNIFE_PUSH:
+		return "Push";
+	case WEAPON_DEAGLE:
+		return "Deagle";
+	case WEAPON_ELITE:
+		return "Dual Berettas";
+	case WEAPON_FIVESEVEN:
+		return "Five-Seven";
+	case WEAPON_GLOCK:
+		return "Glock 18";
+	case WEAPON_HKP2000:
+		return "P2000";
+	case WEAPON_P250:
+		return "P250";
+	case WEAPON_USP_SILENCER:
+		return "USP-S";
+	case WEAPON_TEC9:
+		return "TEC-9";
+	case WEAPON_REVOLVER:
+		return "Revolver";
+	case WEAPON_MAC10:
+		return "MAC-10";
+	case WEAPON_UMP45:
+		return "UMP-45";
+	case WEAPON_BIZON:
+		return "PP-BIZON";
+	case WEAPON_MP7:
+		return "MP7";
+	case WEAPON_MP9:
+		return "MP9";
+	case WEAPON_P90:
+		return "P90";
+	case WEAPON_GALILAR:
+		return "Galil AR";
+	case WEAPON_FAMAS:
+		return "Famas";
+	case WEAPON_M4A1_SILENCER:
+		return "M4A1-S";
+	case WEAPON_M4A1:
+		return "M4A4";
+	case WEAPON_AUG:
+		return "AUG";
+	case WEAPON_SG556:
+		return "SG-553";
+	case WEAPON_AK47:
+		return "AK-47";
+	case WEAPON_G3SG1:
+		return "G3SG1";
+	case WEAPON_SCAR20:
+		return "SCAR-20";
+	case WEAPON_AWP:
+		return "AWP";
+	case WEAPON_SSG08:
+		return "SSG-08";
+	case WEAPON_XM1014:
+		return "XM1014";
+	case WEAPON_SAWEDOFF:
+		return "Sawed-Off";
+	case WEAPON_MAG7:
+		return "MAG-7";
+	case WEAPON_NOVA:
+		return "Nova";
+	case WEAPON_NEGEV:
+		return "Negev";
+	case WEAPON_M249:
+		return "M249";
+	case WEAPON_TASER:
+		return "Zeus X27";
+	case WEAPON_FLASHBANG:
+		return "Flashbang";
+	case WEAPON_HEGRENADE:
+		return "Grenade";
+	case WEAPON_SMOKEGRENADE:
+		return "Smoke";
+	case WEAPON_MOLOTOV:
+		return "Molotov";
+	case WEAPON_DECOY:
+		return "Decoy";
+	case WEAPON_INCGRENADE:
+		return "Incendiary";
+	case WEAPON_C4:
+		return "C4";
+	case WEAPON_CZ75A:
+		return "CZ75-AUTO";
+	default:
+		return " ";
+	}
+}
+
 CUserCmd*& C_BasePlayer::m_pCurrentCommand()
 {
 	static auto currentCommand = *(uint32_t*)(Utils::PatternScan(GetModuleHandleW(L"client.dll"), "89 BE ? ? ? ? E8 ? ? ? ? 85 FF") + 2);

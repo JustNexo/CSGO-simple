@@ -195,7 +195,7 @@ public:
 	void UpdateAccuracyPenalty();
 	CUtlVector<IRefCounted*>& m_CustomMaterials();
 	bool* m_bCustomMaterialInitialized();
-
+	std::string get_name();
 };
 
 class C_BasePlayer : public C_BaseEntity

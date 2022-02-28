@@ -22,7 +22,8 @@ RECT GetBBox(C_BaseEntity* ent)
 
 	const matrix3x4_t& trans = ent->m_rgflCoordinateFrame();
 
-	Vector points[] = {
+	Vector points[] = 
+	{
 		Vector(min.x, min.y, min.z),
 		Vector(min.x, max.y, min.z),
 		Vector(max.x, max.y, min.z),
@@ -34,13 +35,15 @@ RECT GetBBox(C_BaseEntity* ent)
 	};
 
 	Vector pointsTransformed[8];
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 8; i++) 
+	{
 		Math::VectorTransform(points[i], trans, pointsTransformed[i]);
 	}
 
 	Vector screen_points[8] = {};
 
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 8; i++) 
+	{
 		if (!Math::WorldToScreen(pointsTransformed[i], screen_points[i]))
 			return rect;
 	}
@@ -50,7 +53,8 @@ RECT GetBBox(C_BaseEntity* ent)
 	auto right = screen_points[0].x;
 	auto bottom = screen_points[0].y;
 
-	for (int i = 1; i < 8; i++) {
+	for (int i = 1; i < 8; i++) 
+	{
 		if (left > screen_points[i].x)
 			left = screen_points[i].x;
 		if (top < screen_points[i].y)
@@ -60,6 +64,7 @@ RECT GetBBox(C_BaseEntity* ent)
 		if (bottom > screen_points[i].y)
 			bottom = screen_points[i].y;
 	}
+
 	return RECT{ (long)left, (long)top, (long)right, (long)bottom };
 }
 
@@ -68,14 +73,16 @@ Visuals::Visuals()
 	InitializeCriticalSection(&cs);
 }
 
-Visuals::~Visuals() {
+Visuals::~Visuals() 
+{
 	DeleteCriticalSection(&cs);
 }
 
-//--------------------------------------------------------------------------------
-void Visuals::Render() {
+void Visuals::Render() 
+{
+
 }
-//--------------------------------------------------------------------------------
+
 bool Visuals::Player::Begin(C_BasePlayer* pl)
 {
 	if (pl->IsDormant() || !pl->IsAlive())
@@ -95,8 +102,7 @@ bool Visuals::Player::Begin(C_BasePlayer* pl)
 
 	head.z += 15;
 
-	if (!Math::WorldToScreen(head, ctx.head_pos) ||
-		!Math::WorldToScreen(origin, ctx.feet_pos))
+	if (!Math::WorldToScreen(head, ctx.head_pos) || !Math::WorldToScreen(origin, ctx.feet_pos))
 		return false;
 
 	auto h = fabs(ctx.head_pos.y - ctx.feet_pos.y);
@@ -109,11 +115,13 @@ bool Visuals::Player::Begin(C_BasePlayer* pl)
 
 	return true;
 }
-//--------------------------------------------------------------------------------
-void Visuals::Player::RenderBox() {
+void Visuals::Player::RenderBox() 
+{
 	Render::Get().RenderBoxByType(ctx.bbox.left, ctx.bbox.top, ctx.bbox.right, ctx.bbox.bottom, ctx.clr, 1);
+	Render::Get().RenderBoxByType(ctx.bbox.left + 1, ctx.bbox.top + 1, ctx.bbox.right - 1, ctx.bbox.bottom - 1, Color::Black, 1);
+	Render::Get().RenderBoxByType(ctx.bbox.left - 1, ctx.bbox.top - 1, ctx.bbox.right + 1, ctx.bbox.bottom + 1, Color::Black, 1);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::Player::RenderName()
 {
 	player_info_t info = ctx.pl->GetPlayerInfo();
@@ -122,12 +130,11 @@ void Visuals::Player::RenderName()
 
 	Render::Get().RenderText(info.szName, ctx.feet_pos.x - sz.x / 2, ctx.head_pos.y - sz.y, 14.f,  ctx.clr);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::Player::RenderHealth()
 {
 	auto  hp = ctx.pl->m_iHealth();
 	float box_h = (float)fabs(ctx.bbox.bottom - ctx.bbox.top);
-	//float off = (box_h / 6.f) + 5;
 	float off = 8;
 
 	int height = (box_h * hp) / 100;
@@ -143,12 +150,11 @@ void Visuals::Player::RenderHealth()
 	Render::Get().RenderBox(x, y, x + w, y + h, Color::Black, 1.f, true);
 	Render::Get().RenderBox(x + 1, y + 1, x + w - 1, y + height - 2, Color(red, green, 0, 255), 1.f, true);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::Player::RenderArmour()
 {
 	auto  armour = ctx.pl->m_ArmorValue();
 	float box_h = (float)fabs(ctx.bbox.bottom - ctx.bbox.top);
-	//float off = (box_h / 6.f) + 5;
 	float off = 4;
 
 	int height = (((box_h * armour) / 100));
@@ -161,20 +167,17 @@ void Visuals::Player::RenderArmour()
 	Render::Get().RenderBox(x, y, x + w, y + h, Color::Black, 1.f, true);
 	Render::Get().RenderBox(x + 1, y + 1, x + w - 1, y + height - 2, Color(0, 50, 255, 255), 1.f, true);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::Player::RenderWeaponName()
 {
 	auto weapon = ctx.pl->m_hActiveWeapon().Get();
 
-	if (!weapon) return;
-	if (!weapon->GetCSWeaponData()) return;
+	if (!weapon)
+		return;
 
-	auto text = weapon->GetCSWeaponData()->szWeaponName + 7;
-	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, text);
-	Render::Get().RenderText(text, ctx.feet_pos.x, ctx.feet_pos.y, 14.f, ctx.clr, true,
-		g_pDefaultFont);
+	Render::Get().RenderText(weapon->get_name().c_str(), ctx.feet_pos.x, ctx.feet_pos.y, 14.f, ctx.clr, true, g_pDefaultFont);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::Player::RenderSnapline()
 {
 
@@ -184,7 +187,7 @@ void Visuals::Player::RenderSnapline()
 	Render::Get().RenderLine(screen_w / 2.f, (float)screen_h,
 		ctx.feet_pos.x, ctx.feet_pos.y, ctx.clr);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::RenderCrosshair()
 {
 	int w, h;
@@ -196,10 +199,11 @@ void Visuals::RenderCrosshair()
 	Render::Get().RenderLine(cx - 25, cy, cx + 25, cy, g_Configurations.color_esp_crosshair);
 	Render::Get().RenderLine(cx, cy - 25, cx, cy + 25, g_Configurations.color_esp_crosshair);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::RenderWeapon(C_BaseCombatWeapon* ent)
 {
-	auto clean_item_name = [](const char* name) -> const char* {
+	auto clean_item_name = [](const char* name) -> const char* 
+	{
 		if (name[0] == 'C')
 			name++;
 
@@ -210,7 +214,6 @@ void Visuals::RenderWeapon(C_BaseCombatWeapon* ent)
 		return name;
 	};
 
-	// We don't want to Render weapons that are being held
 	if (ent->m_hOwnerEntity().IsValid())
 		return;
 
@@ -221,16 +224,14 @@ void Visuals::RenderWeapon(C_BaseCombatWeapon* ent)
 
 	Render::Get().RenderBox(bbox, g_Configurations.color_esp_weapons);
 
-
 	auto name = clean_item_name(ent->GetClientClass()->m_pNetworkName);
 
 	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, name);
 	int w = bbox.right - bbox.left;
 
-
 	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_weapons);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::RenderDefuseKit(C_BaseEntity* ent)
 {
 	if (ent->m_hOwnerEntity().IsValid())
@@ -248,7 +249,7 @@ void Visuals::RenderDefuseKit(C_BaseEntity* ent)
 	int w = bbox.right - bbox.left;
 	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_defuse);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::RenderPlantedC4(C_BaseEntity* ent)
 {
 	auto bbox = GetBBox(ent);
@@ -256,9 +257,7 @@ void Visuals::RenderPlantedC4(C_BaseEntity* ent)
 	if (bbox.right == 0 || bbox.bottom == 0)
 		return;
 
-
 	Render::Get().RenderBox(bbox, g_Configurations.color_esp_c4);
-
 
 	int bombTimer = std::ceil(ent->m_flC4Blow() - g_GlobalVars->curtime);
 	std::string timer = std::to_string(bombTimer);
@@ -269,17 +268,21 @@ void Visuals::RenderPlantedC4(C_BaseEntity* ent)
 
 	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_c4);
 }
-//--------------------------------------------------------------------------------
+
 void Visuals::RenderItemEsp(C_BaseEntity* ent)
 {
 	std::string itemstr = "Undefined";
+
 	const model_t * itemModel = ent->GetModel();
 	if (!itemModel)
 		return;
+
 	studiohdr_t * hdr = g_MdlInfo->GetStudiomodel(itemModel);
 	if (!hdr)
 		return;
+
 	itemstr = hdr->szName;
+
 	if (ent->GetClientClass()->m_ClassID == ClassId_CBumpMine)
 		itemstr = "";
 	else if (itemstr.find("case_pistol") != std::string::npos)
@@ -316,37 +319,28 @@ void Visuals::RenderItemEsp(C_BaseEntity* ent)
 		itemstr = "Exojump";
 	else if (itemstr.find("healthshot") != std::string::npos)
 		itemstr = "Healthshot";
-	else {
-		/*May be you will search some missing items..*/
-		/*static std::vector<std::string> unk_loot;
-		if (std::find(unk_loot.begin(), unk_loot.end(), itemstr) == unk_loot.end()) {
-			Utils::ConsolePrint(itemstr.c_str());
-			unk_loot.push_back(itemstr);
-		}*/
+	else 
 		return;
-	}
 	
 	auto bbox = GetBBox(ent);
 	if (bbox.right == 0 || bbox.bottom == 0)
 		return;
+
 	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, itemstr.c_str());
 	int w = bbox.right - bbox.left;
 
-
-	//Render::Get().RenderBox(bbox, g_Configurations.color_esp_item);
 	Render::Get().RenderText(itemstr, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_item);
 }
-//--------------------------------------------------------------------------------
-void Visuals::ThirdPerson() {
+
+void Visuals::ThirdPerson() 
+{
 	if (!g_LocalPlayer)
 		return;
 
 	if (g_Configurations.misc_thirdperson && g_LocalPlayer->IsAlive())
 	{
 		if (!g_Input->m_fCameraInThirdPerson)
-		{
 			g_Input->m_fCameraInThirdPerson = true;
-		}
 
 		float dist = g_Configurations.misc_thirdperson_dist;
 
@@ -354,12 +348,8 @@ void Visuals::ThirdPerson() {
 		trace_t tr;
 		Ray_t ray;
 
-		Vector desiredCamOffset = Vector(cos(DEG2RAD(view->yaw)) * dist,
-			sin(DEG2RAD(view->yaw)) * dist,
-			sin(DEG2RAD(-view->pitch)) * dist
-		);
+		Vector desiredCamOffset = Vector(cos(DEG2RAD(view->yaw)) * dist, sin(DEG2RAD(view->yaw)) * dist, sin(DEG2RAD(-view->pitch)) * dist);
 
-		//cast a ray from the Current camera Origin to the Desired 3rd person Camera origin
 		ray.Init(g_LocalPlayer->GetEyePos(), (g_LocalPlayer->GetEyePos() - desiredCamOffset));
 		CTraceFilter traceFilter;
 		traceFilter.pSkip = g_LocalPlayer;
@@ -367,41 +357,33 @@ void Visuals::ThirdPerson() {
 
 		Vector diff = g_LocalPlayer->GetEyePos() - tr.endpos;
 
-		float distance2D = sqrt(abs(diff.x * diff.x) + abs(diff.y * diff.y));// Pythagorean
+		float distance2D = sqrt(abs(diff.x * diff.x) + abs(diff.y * diff.y)); 
 
 		bool horOK = distance2D > (dist - 2.0f);
 		bool vertOK = (abs(diff.z) - abs(desiredCamOffset.z) < 3.0f);
 
 		float cameraDistance;
 
-		if (horOK && vertOK)  // If we are clear of obstacles
-		{
-			cameraDistance = dist; // go ahead and set the distance to the setting
-		}
+		if (horOK && vertOK)        
+			cameraDistance = dist;          
 		else
 		{
-			if (vertOK) // if the Vertical Axis is OK
-			{
+			if (vertOK)       
 				cameraDistance = distance2D * 0.95f;
-			}
-			else// otherwise we need to move closer to not go into the floor/ceiling
-			{
+			else            
 				cameraDistance = abs(diff.z) * 0.95f;
-			}
 		}
 		g_Input->m_fCameraInThirdPerson = true;
-
 		g_Input->m_vecCameraOffset.z = cameraDistance;
 	}
 	else
-	{
 		g_Input->m_fCameraInThirdPerson = false;
-	}
 }
 
-
-void Visuals::AddToDrawList() {
-	for (auto i = 1; i <= g_EntityList->GetHighestEntityIndex(); ++i) {
+void Visuals::AddToDrawList() 
+{
+	for (auto i = 1; i <= g_EntityList->GetHighestEntityIndex(); ++i) 
+	{
 		auto entity = C_BaseEntity::GetEntityByIndex(i);
 
 		if (!entity)
@@ -410,15 +392,23 @@ void Visuals::AddToDrawList() {
 		if (entity == g_LocalPlayer && !g_Input->m_fCameraInThirdPerson)
 			continue;
 
-		if (i <= g_GlobalVars->maxClients) {
+		if (i <= g_GlobalVars->maxClients) 
+		{
 			auto player = Player();
-			if (player.Begin((C_BasePlayer*)entity)) {
-				if (g_Configurations.esp_player_snaplines) player.RenderSnapline();
-				if (g_Configurations.esp_player_boxes)     player.RenderBox();
-				if (g_Configurations.esp_player_weapons)   player.RenderWeaponName();
-				if (g_Configurations.esp_player_names)     player.RenderName();
-				if (g_Configurations.esp_player_health)    player.RenderHealth();
-				if (g_Configurations.esp_player_armour)    player.RenderArmour();
+			if (player.Begin((C_BasePlayer*)entity)) 
+			{
+				if (g_Configurations.esp_player_snaplines) 
+					player.RenderSnapline();
+				if (g_Configurations.esp_player_boxes)     
+					player.RenderBox();
+				if (g_Configurations.esp_player_weapons)   
+					player.RenderWeaponName();
+				if (g_Configurations.esp_player_names)     
+					player.RenderName();
+				if (g_Configurations.esp_player_health)    
+					player.RenderHealth();
+				if (g_Configurations.esp_player_armour)    
+					player.RenderArmour();
 			}
 		}
 		else if (g_Configurations.esp_dropped_weapons && entity->IsWeapon())
@@ -431,8 +421,6 @@ void Visuals::AddToDrawList() {
 			RenderItemEsp(entity);
 	}
 
-
 	if (g_Configurations.esp_crosshair)
 		RenderCrosshair();
-
 }
