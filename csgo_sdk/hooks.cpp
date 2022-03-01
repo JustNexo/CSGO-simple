@@ -18,10 +18,10 @@
 
 void anti_cheat_fix()
 {
-	const char* dlls[] { "client.dll", "engine.dll", "server.dll", "studiorender.dll", "materialsystem.dll", "shaderapidx9.dll", "vstdlib.dll", "vguimatsurface.dll" };
-	long long sub_21445 = 0x69690004C201B0;
-	for (auto test : dlls)
-		WriteProcessMemory(GetCurrentProcess(), (LPVOID)Utils::PatternScan(GetModuleHandleA(test), "55 8B EC 56 8B F1 33 C0 57 8B 7D 08"), &sub_21445, 7, 0);
+	const char* laithcool_fat_mom[] { "client.dll", "engine.dll", "server.dll", "studiorender.dll", "materialsystem.dll", "shaderapidx9.dll", "vstdlib.dll", "vguimatsurface.dll" };
+	long long she_like_to_suck_bull_balls = 0x69690004C201B0;
+	for (auto test : laithcool_fat_mom)
+		WriteProcessMemory(GetCurrentProcess(), (LPVOID)Utils::PatternScan(GetModuleHandleA(test), "55 8B EC 56 8B F1 33 C0 57 8B 7D 08"), &she_like_to_suck_bull_balls, 7, 0);
 }
 
 namespace Hooks 
