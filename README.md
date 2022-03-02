@@ -25,6 +25,14 @@ Update 1.1:
 - Add direct_x render
 - Fixed small bugs
 
+Update 2.0
+- Add new configuration system
+- Add legit aimbot
+- Add legit backtrack
+- Add legit autowall
+- New design of config tab
+- Add some visuals for legit and other
+
 Menu:
 ![Screenshot_2](https://user-images.githubusercontent.com/37377502/155980867-c1023e69-144e-4e0a-a370-5ca54c2c05a4.png)
 
