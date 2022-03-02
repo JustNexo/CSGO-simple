@@ -10,6 +10,8 @@
 #include "configurations.hpp"
 #include "render/render.hpp"
 
+#include "config.hpp"
+
 DWORD WINAPI OnDllAttach(LPVOID base)
 {
 	while (!GetModuleHandleA("serverbrowser.dll"))
@@ -22,6 +24,8 @@ DWORD WINAPI OnDllAttach(LPVOID base)
     try 
     {
         Utils::ConsolePrint("Initializing...\n");
+
+        CConfig::Get().Setup();
 
         Interfaces::Initialize();
         Interfaces::Dump();

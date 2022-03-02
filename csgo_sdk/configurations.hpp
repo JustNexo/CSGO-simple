@@ -1,13 +1,13 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <memory>
 #include <unordered_map>
 #include <vector>
 #include "sdk/misc/Color.hpp"
 
-#define A( s ) #s
-#define CONFIGURATION(type, var, val) Var<type> var = {A(var), val}
+#define CONFIGURATION(type, var, val) type var = val
 
 template <typename T = bool>
 class Var 
@@ -27,9 +27,53 @@ public:
 	//operator T*() const { return value; }
 };
 
+struct Legitbot_Configurations
+{
+	bool enabled = false;
+	bool deathmatch = false;
+	bool autopistol = false;
+	bool smoke_check = false;
+	bool flash_check = false;
+	bool jump_check = false;
+	bool autowall = false;
+	bool silent = false;
+	bool autofire = false;
+	bool on_key = true;
+	bool rcs = false;
+	bool rcs_fov_enabled = false;
+	bool rcs_smooth_enabled = false;
+	bool autostop = false;
+	float backtrack_time = 0.0f;
+	bool only_in_zoom = true;
+	int autofire_key = 1;
+	int key = 1;
+	int aim_type = 1;
+	int priority = 0;
+	int fov_type = 0;
+	int smooth_type = 0;
+	int rcs_type = 0;
+	int hitbox = 1;
+	float fov = 0.f;
+	float silent_fov = 0.f;
+	float rcs_fov = 0.f;
+	float smooth = 1;
+	float rcs_smooth = 1;
+	int shot_delay = 0;
+	int kill_delay = 0;
+	int rcs_x = 100;
+	int rcs_y = 100;
+	int rcs_start = 1;
+	int min_damage = 1;
+};
+
 class Configurations
 {
 public:
+		//
+		// AIMBOT
+		//
+		std::map<int, Legitbot_Configurations> legitbot_items = { };
+
 		// 
 		// ESP
 		// 
@@ -47,6 +91,7 @@ public:
 		CONFIGURATION(bool, esp_planted_c4, false);
 		CONFIGURATION(bool, esp_items, false);
 		CONFIGURATION(bool, esp_grenade_prediction, false);
+		CONFIGURATION(bool, esp_draw_weapon_fov, false);
 
 		// 
 		// GLOW
@@ -97,49 +142,51 @@ public:
 		CONFIGURATION(bool, misc_thirdperson, false);
 		CONFIGURATION(bool, misc_showranks, true);
 		CONFIGURATION(bool, misc_watermark, true);
-		CONFIGURATION(float, misc_thirdperson_dist, 50.f);
-		CONFIGURATION(int, viewmodel_fov, 68);
-		CONFIGURATION(float, mat_ambient_light_r, 0.0f);
-		CONFIGURATION(float, mat_ambient_light_g, 0.0f);
-		CONFIGURATION(float, mat_ambient_light_b, 0.0f);
+		CONFIGURATION(float, misc_thirdperson_dist, 130.f);
+		CONFIGURATION(int, misc_viewmodel_fov, 68);
+		CONFIGURATION(float, misc_mat_ambient_light_r, 0.0f);
+		CONFIGURATION(float, misc_mat_ambient_light_g, 0.0f);
+		CONFIGURATION(float, misc_mat_ambient_light_b, 0.0f);
 
 		// 
 		// COLORS
-		// 
-		CONFIGURATION(Color, color_esp_ally_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_enemy_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_ally_occluded, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_enemy_occluded, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_crosshair, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_weapons, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_defuse, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_c4, Color(255, 255, 255));
-		CONFIGURATION(Color, color_esp_item, Color(255, 255, 255));
-		CONFIGURATION(Color, color_grenade_prediction, Color(255, 255, 255));
+		//
 
-		CONFIGURATION(Color, color_glow_ally, Color(255, 255, 255));
-		CONFIGURATION(Color, color_glow_enemy, Color(255, 255, 255));
-		CONFIGURATION(Color, color_glow_chickens, Color(255, 255, 255));
-		CONFIGURATION(Color, color_glow_c4_carrier, Color(255, 255, 255));
-		CONFIGURATION(Color, color_glow_planted_c4, Color(255, 255, 255));
-		CONFIGURATION(Color, color_glow_defuse, Color(255, 255, 255));
-		CONFIGURATION(Color, color_glow_weapons, Color(255, 255, 255));
+		//Changed to float, because it's more comfortable for me :)
+		float color_esp_ally_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_enemy_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_ally_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_enemy_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_crosshair[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_weapons[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_defuse[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_c4[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_esp_item[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_grenade_prediction[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-		CONFIGURATION(Color, color_chams_player_ally_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_chams_player_ally_occluded, Color(255, 255, 255));
-		CONFIGURATION(Color, color_chams_player_enemy_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_chams_player_enemy_occluded, Color(255, 255, 255));
+		float color_glow_ally[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_glow_enemy[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_glow_chickens[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_glow_c4_carrier[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_glow_planted_c4[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_glow_defuse[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_glow_weapons[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-		CONFIGURATION(Color, color_chams_arms_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_chams_arms_occluded, Color(255, 255, 255));
+		float color_chams_player_ally_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_chams_player_ally_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_chams_player_enemy_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_chams_player_enemy_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-		CONFIGURATION(Color, color_chams_sleeve_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_chams_sleeve_occluded, Color(255, 255, 255));
+		float color_chams_arms_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_chams_arms_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-		CONFIGURATION(Color, color_chams_weapon_visible, Color(255, 255, 255));
-		CONFIGURATION(Color, color_chams_weapon_occluded, Color(255, 255, 255));
+		float color_chams_sleeve_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_chams_sleeve_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-		CONFIGURATION(Color, color_watermark, Color(255, 255, 255)); // no menu config cuz its useless
+		float color_chams_weapon_visible[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float color_chams_weapon_occluded[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+		float color_watermark[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 };
 
 inline Configurations g_Configurations;

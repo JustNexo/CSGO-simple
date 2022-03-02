@@ -511,6 +511,25 @@ void C_BasePlayer::UpdateClientSideAnimation()
 	return CallVFunction<void(__thiscall*)(void*)>(this, 223 + VALVE_ADDED_FUNCS)(this);
 }
 
+bool C_BasePlayer::IsNotTarget()
+{
+	if (!this || this == g_LocalPlayer)
+		return true;
+
+	if (m_iHealth() <= 0)
+		return true;
+
+	if (m_bGunGameImmunity())
+		return true;
+
+	if (m_fFlags() & FL_FROZEN)
+		return true;
+
+	int entIndex = EntIndex();
+
+	return entIndex > g_GlobalVars->maxClients;
+}
+
 void C_BasePlayer::InvalidateBoneCache()
 {
 	static DWORD addr = (DWORD)Utils::PatternScan(GetModuleHandleA("client.dll"), "80 3D ? ? ? ? ? 74 16 A1 ? ? ? ? 48 C7 81");

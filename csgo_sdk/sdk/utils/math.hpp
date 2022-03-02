@@ -7,10 +7,14 @@
 #define RAD2DEG(x) DirectX::XMConvertToDegrees(x)
 #define DEG2RAD(x) DirectX::XMConvertToRadians(x)
 #define M_PI 3.14159265358979323846
-#define PI_F	((float)(M_PI)) 
+#define PI_F	((float)(M_PI))
+
+#define TICK_INTERVAL (g_GlobalVars->interval_per_tick)
+#define TIME_TO_TICKS( dt ) ((int)(0.5f + (float)(dt) / TICK_INTERVAL))
 
 namespace Math
 {
+	void FixAngles(QAngle& angle);
 	inline float FASTSQRT(float x)
 	{
 		unsigned int i = *(unsigned int*)&x;

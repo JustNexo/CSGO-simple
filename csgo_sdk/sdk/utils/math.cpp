@@ -2,7 +2,12 @@
 
 namespace Math
 {
-	//--------------------------------------------------------------------------------
+    void FixAngles(QAngle& angle)
+    {
+        Normalize3(angle);
+        ClampAngles(angle);
+    }
+    //--------------------------------------------------------------------------------
 	float VectorDistance(const Vector& v1, const Vector& v2)
 	{
 		return FASTSQRT(pow(v1.x - v2.x, 2) + pow(v1.y - v2.y, 2) + pow(v1.z - v2.z, 2));

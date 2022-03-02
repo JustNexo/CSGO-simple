@@ -423,7 +423,7 @@ public:
 
     CGameTrace() {}
 
-private:
+public:
     // No copy constructors allowed
     CGameTrace(const CGameTrace& other) :
         fractionleftsolid(other.fractionleftsolid),

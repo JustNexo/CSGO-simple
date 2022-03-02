@@ -290,7 +290,15 @@ public:
 		return *(float_t*)((uintptr_t)this + _m_flMaxspeed);
 	}
 
+	NETVAR(int32_t, m_iFOV, "DT_BasePlayer", "m_iFOV");
+	NETVAR(int32_t, m_iDefaultFOV, "DT_BasePlayer", "m_iDefaultFOV");
 
+	int C_BasePlayer::GetFOV() 
+	{
+		if (m_iFOV() != 0)
+			return m_iFOV();
+		return m_iDefaultFOV();
+	}
 
 	Vector        GetEyePos();
 	player_info_t GetPlayerInfo();
@@ -304,7 +312,7 @@ public:
 	bool          CanSeePlayer(C_BasePlayer* player, int hitbox);
 	bool          CanSeePlayer(C_BasePlayer* player, const Vector& pos);
 	void UpdateClientSideAnimation();
-
+	bool		  IsNotTarget();
 	int m_nMoveType();
 	QAngle * GetVAngles();
 	float_t m_flSpawnTime();

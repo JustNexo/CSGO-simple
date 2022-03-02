@@ -13,6 +13,8 @@
 #include "functions/misc.hpp"
 #include "functions/prediction.hpp"
 #include "functions/grenade_pred.hpp"
+#include "functions/aimbot.hpp"
+#include "functions/backtrack.hpp"
 
 #pragma intrinsic(_ReturnAddress)
 
@@ -78,10 +80,10 @@ namespace Hooks
 		static auto crosshair_cvar = g_CVar->FindVar("crosshair");
 
 		viewmodel_fov->m_fnChangeCallbacks.m_Size = 0;
-		viewmodel_fov->SetValue(g_Configurations.viewmodel_fov);
-		mat_ambient_light_r->SetValue(g_Configurations.mat_ambient_light_r);
-		mat_ambient_light_g->SetValue(g_Configurations.mat_ambient_light_g);
-		mat_ambient_light_b->SetValue(g_Configurations.mat_ambient_light_b);
+		viewmodel_fov->SetValue(g_Configurations.misc_viewmodel_fov);
+		mat_ambient_light_r->SetValue(g_Configurations.misc_mat_ambient_light_r);
+		mat_ambient_light_g->SetValue(g_Configurations.misc_mat_ambient_light_g);
+		mat_ambient_light_b->SetValue(g_Configurations.misc_mat_ambient_light_b);
 		
 		crosshair_cvar->SetValue(!(g_Configurations.esp_enabled && g_Configurations.esp_crosshair));
 
@@ -167,6 +169,9 @@ namespace Hooks
 
 		Engine_Prediction::Get().Begin(cmd);
 		{
+			LegitBot::Get().OnMove(cmd);
+			Backtrack::Get().OnMove(cmd);
+
 			if (g_Configurations.esp_grenade_prediction)
 				Grenade_Pred::Get().Trace(cmd);
 		}

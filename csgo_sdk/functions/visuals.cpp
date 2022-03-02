@@ -2,6 +2,7 @@
 
 #include "visuals.hpp"
 #include "grenade_pred.hpp"
+#include "aimbot.hpp"
 
 #include "../configurations.hpp"
 #include "../sdk/utils/math.hpp"
@@ -95,7 +96,9 @@ bool Visuals::Player::Begin(C_BasePlayer* pl)
 	if (!ctx.is_enemy && g_Configurations.esp_enemies_only)
 		return false;
 
-	ctx.clr = ctx.is_enemy ? (ctx.is_visible ? g_Configurations.color_esp_enemy_visible : g_Configurations.color_esp_enemy_occluded) : (ctx.is_visible ? g_Configurations.color_esp_ally_visible : g_Configurations.color_esp_ally_occluded);
+	ctx.clr = ctx.is_enemy ? (ctx.is_visible ? (Color)g_Configurations.color_esp_enemy_visible 
+		: (Color)g_Configurations.color_esp_enemy_occluded) : (ctx.is_visible ? (Color)g_Configurations.color_esp_ally_visible 
+			: (Color)g_Configurations.color_esp_ally_occluded);
 
 	auto head = pl->GetHitboxPos(HITBOX_HEAD);
 	auto origin = pl->m_vecOrigin();
@@ -197,8 +200,8 @@ void Visuals::RenderCrosshair()
 
 	int cx = w / 2;
 	int cy = h / 2;
-	Render::Get().RenderLine(cx - 25, cy, cx + 25, cy, g_Configurations.color_esp_crosshair);
-	Render::Get().RenderLine(cx, cy - 25, cx, cy + 25, g_Configurations.color_esp_crosshair);
+	Render::Get().RenderLine(cx - 25, cy, cx + 25, cy, (Color)g_Configurations.color_esp_crosshair);
+	Render::Get().RenderLine(cx, cy - 25, cx, cy + 25, (Color)g_Configurations.color_esp_crosshair);
 }
 
 void Visuals::RenderWeapon(C_BaseCombatWeapon* ent)
@@ -223,14 +226,14 @@ void Visuals::RenderWeapon(C_BaseCombatWeapon* ent)
 	if (bbox.right == 0 || bbox.bottom == 0)
 		return;
 
-	Render::Get().RenderBox(bbox, g_Configurations.color_esp_weapons);
+	Render::Get().RenderBox(bbox, (Color)g_Configurations.color_esp_weapons);
 
 	auto name = clean_item_name(ent->GetClientClass()->m_pNetworkName);
 
 	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, name);
 	int w = bbox.right - bbox.left;
 
-	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_weapons);
+	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, (Color)g_Configurations.color_esp_weapons);
 }
 
 void Visuals::RenderDefuseKit(C_BaseEntity* ent)
@@ -243,12 +246,12 @@ void Visuals::RenderDefuseKit(C_BaseEntity* ent)
 	if (bbox.right == 0 || bbox.bottom == 0)
 		return;
 
-	Render::Get().RenderBox(bbox, g_Configurations.color_esp_defuse);
+	Render::Get().RenderBox(bbox, (Color)g_Configurations.color_esp_defuse);
 
 	auto name = "Defuse Kit";
 	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, name);
 	int w = bbox.right - bbox.left;
-	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_defuse);
+	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, (Color)g_Configurations.color_esp_defuse);
 }
 
 void Visuals::RenderPlantedC4(C_BaseEntity* ent)
@@ -258,7 +261,7 @@ void Visuals::RenderPlantedC4(C_BaseEntity* ent)
 	if (bbox.right == 0 || bbox.bottom == 0)
 		return;
 
-	Render::Get().RenderBox(bbox, g_Configurations.color_esp_c4);
+	Render::Get().RenderBox(bbox, (Color)g_Configurations.color_esp_c4);
 
 	int bombTimer = std::ceil(ent->m_flC4Blow() - g_GlobalVars->curtime);
 	std::string timer = std::to_string(bombTimer);
@@ -267,7 +270,7 @@ void Visuals::RenderPlantedC4(C_BaseEntity* ent)
 	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, name.c_str());
 	int w = bbox.right - bbox.left;
 
-	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_c4);
+	Render::Get().RenderText(name, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, (Color)g_Configurations.color_esp_c4);
 }
 
 void Visuals::RenderItemEsp(C_BaseEntity* ent)
@@ -330,7 +333,7 @@ void Visuals::RenderItemEsp(C_BaseEntity* ent)
 	auto sz = g_pDefaultFont->CalcTextSizeA(14.f, FLT_MAX, 0.0f, itemstr.c_str());
 	int w = bbox.right - bbox.left;
 
-	Render::Get().RenderText(itemstr, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, g_Configurations.color_esp_item);
+	Render::Get().RenderText(itemstr, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, (Color)g_Configurations.color_esp_item);
 }
 
 void Visuals::ThirdPerson() 
@@ -379,6 +382,38 @@ void Visuals::ThirdPerson()
 	}
 	else
 		g_Input->m_fCameraInThirdPerson = false;
+}
+
+void Visuals::DrawFOV()
+{
+	auto pWeapon = g_LocalPlayer->m_hActiveWeapon();
+	if (!pWeapon) 
+		return;
+
+	auto settings = g_Configurations.legitbot_items[pWeapon->m_Item().m_iItemDefinitionIndex()];
+
+	if (settings.enabled) {
+
+		float fov = static_cast<float>(g_LocalPlayer->GetFOV());
+
+		int w, h;
+		g_EngineClient->GetScreenSize(w, h);
+
+		Vector2D screenSize = Vector2D(w, h);
+		Vector2D center = screenSize * 0.5f;
+
+		float ratio = screenSize.x / screenSize.y;
+		float screenFov = atanf((ratio) * (0.75f) * tan(DEG2RAD(fov * 0.5f)));
+
+		float radiusFOV = tanf(DEG2RAD(LegitBot::Get().GetFov())) / tanf(screenFov) * center.x;
+
+		Render::Get().RenderCircle(center.x, center.y, radiusFOV, 32, Color(0, 0, 0, 100));
+
+		if (settings.silent) {
+			float silentRadiusFOV = tanf(DEG2RAD(settings.silent_fov)) / tanf(screenFov) * center.x;
+			Render::Get().RenderCircle(center.x, center.y, silentRadiusFOV, 32, Color(255, 25, 10, 100));
+		}
+	}
 }
 
 void Visuals::AddToDrawList() 

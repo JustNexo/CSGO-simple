@@ -73,8 +73,8 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 			if (!enemy && g_Configurations.chams_player_enemies_only)
 				return;
 
-			const auto clr_front = enemy ? g_Configurations.color_chams_player_enemy_visible : g_Configurations.color_chams_player_ally_visible;
-			const auto clr_back = enemy ? g_Configurations.color_chams_player_enemy_occluded : g_Configurations.color_chams_player_ally_occluded;
+			const auto clr_front = enemy ? (Color)g_Configurations.color_chams_player_enemy_visible : (Color)g_Configurations.color_chams_player_ally_visible;
+			const auto clr_back = enemy ? (Color)g_Configurations.color_chams_player_enemy_occluded : (Color)g_Configurations.color_chams_player_ally_occluded;
 
 			if (g_Configurations.chams_player_ignorez) 
 			{
@@ -98,14 +98,14 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 		//
 		if (g_Configurations.chams_sleeve_ignorez)
 		{
-			OverrideMaterial(true, g_Configurations.chams_sleeve_flat, g_Configurations.chams_sleeve_wireframe, false, g_Configurations.color_chams_sleeve_occluded);
+			OverrideMaterial(true, g_Configurations.chams_sleeve_flat, g_Configurations.chams_sleeve_wireframe, false, (Color)g_Configurations.color_chams_sleeve_occluded);
 			fnDME(g_MdlRender, 0, ctx, state, info, matrix);
-			OverrideMaterial(false, g_Configurations.chams_sleeve_flat, g_Configurations.chams_sleeve_wireframe, false, g_Configurations.color_chams_sleeve_visible);
+			OverrideMaterial(false, g_Configurations.chams_sleeve_flat, g_Configurations.chams_sleeve_wireframe, false, (Color)g_Configurations.color_chams_sleeve_visible);
 		}
 		else
 		{
 			OverrideMaterial(false, g_Configurations.chams_sleeve_flat, g_Configurations.chams_sleeve_wireframe, g_Configurations.chams_sleeve_glass,
-				g_Configurations.color_chams_sleeve_visible);
+				(Color)g_Configurations.color_chams_sleeve_visible);
 		}
 	}
 	else if (is_arm && g_Configurations.chams_arms_enabled)
@@ -125,14 +125,14 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 
 		if (g_Configurations.chams_arms_ignorez)
 		{
-			OverrideMaterial(true, g_Configurations.chams_arms_flat, g_Configurations.chams_arms_wireframe, false, g_Configurations.color_chams_arms_occluded);
+			OverrideMaterial(true, g_Configurations.chams_arms_flat, g_Configurations.chams_arms_wireframe, false, (Color)g_Configurations.color_chams_arms_occluded);
 			fnDME(g_MdlRender, 0, ctx, state, info, matrix);
-			OverrideMaterial(false, g_Configurations.chams_arms_flat, g_Configurations.chams_arms_wireframe, false, g_Configurations.color_chams_arms_visible);
+			OverrideMaterial(false, g_Configurations.chams_arms_flat, g_Configurations.chams_arms_wireframe, false, (Color)g_Configurations.color_chams_arms_visible);
 		}
 		else
 		{
 			OverrideMaterial(false, g_Configurations.chams_arms_flat, g_Configurations.chams_arms_wireframe, g_Configurations.chams_arms_glass,
-				g_Configurations.color_chams_arms_visible);
+				(Color)g_Configurations.color_chams_arms_visible);
 		}
 	}
 	else if (is_weapon && g_Configurations.chams_weapon_enabled && !is_arm)
@@ -145,14 +145,14 @@ void Chams::OnDrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& s
 		//
 		if (g_Configurations.chams_weapon_ignorez)
 		{
-			OverrideMaterial(true, g_Configurations.chams_weapon_flat, g_Configurations.chams_weapon_wireframe, false, g_Configurations.color_chams_weapon_occluded);
+			OverrideMaterial(true, g_Configurations.chams_weapon_flat, g_Configurations.chams_weapon_wireframe, false, (Color)g_Configurations.color_chams_weapon_occluded);
 			fnDME(g_MdlRender, 0, ctx, state, info, matrix);
-			OverrideMaterial(false, g_Configurations.chams_weapon_flat, g_Configurations.chams_weapon_wireframe, false, g_Configurations.color_chams_weapon_visible);
+			OverrideMaterial(false, g_Configurations.chams_weapon_flat, g_Configurations.chams_weapon_wireframe, false, (Color)g_Configurations.color_chams_weapon_visible);
 		}
 		else
 		{
 			OverrideMaterial(false, g_Configurations.chams_weapon_flat, g_Configurations.chams_weapon_wireframe, g_Configurations.chams_weapon_glass,
-				g_Configurations.color_chams_weapon_visible);
+				(Color)g_Configurations.color_chams_weapon_visible);
 		}
 	}
 }

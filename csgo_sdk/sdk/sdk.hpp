@@ -54,6 +54,10 @@ namespace Interfaces
     void Dump();
 }
 
+extern void(__cdecl* RandomSeed)(uint32_t seed);
+extern int(__cdecl* RandomInt)(int min, int max);
+extern float(__cdecl* RandomFloat)(float min, float max);
+
 inline IVEngineClient*       g_EngineClient   = nullptr;
 inline IBaseClientDLL*       g_CHLClient      = nullptr;
 inline IClientEntityList*    g_EntityList     = nullptr;

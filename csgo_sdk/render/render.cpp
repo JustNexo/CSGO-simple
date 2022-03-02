@@ -59,10 +59,13 @@ void Render::BeginScene()
 	draw_list->PushClipRectFullScreen();
 
 	if (g_Configurations.misc_watermark)
-		Render::Get().RenderText("csgo_sdk", 10, 5, 18.f, g_Configurations.color_watermark, false, true, g_pSecondFont);
+		Render::Get().RenderText("csgo_sdk", 10, 5, 18.f, (Color)g_Configurations.color_watermark, false, true, g_pSecondFont);
 
 	if (g_EngineClient->IsInGame() && g_LocalPlayer && g_Configurations.esp_enabled)
 		Visuals::Get().AddToDrawList();
+
+	if (g_EngineClient->IsInGame() && g_LocalPlayer && g_Configurations.esp_draw_weapon_fov) 
+		Visuals::Get().DrawFOV();
 
 	render_mutex.lock();
 	*draw_list_act = *draw_list;

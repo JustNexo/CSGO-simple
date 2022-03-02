@@ -2,6 +2,10 @@
 
 #include "utils/utils.hpp"
 
+int(__cdecl* RandomInt)(int min, int max);
+void(__cdecl* RandomSeed)(uint32_t seed);
+float(__cdecl* RandomFloat)(float min, float max);
+
 namespace Interfaces
 {
     CreateInterfaceFn get_module_factory(HMODULE module)
@@ -23,15 +27,15 @@ namespace Interfaces
 
     void Initialize()
     {
-        auto engineFactory    = get_module_factory(GetModuleHandleW(L"engine.dll"));
-        auto clientFactory    = get_module_factory(GetModuleHandleW(L"client.dll"));
-        auto valveStdFactory  = get_module_factory(GetModuleHandleW(L"vstdlib.dll"));
-        auto vguiFactory      = get_module_factory(GetModuleHandleW(L"vguimatsurface.dll"));
-        auto vgui2Factory     = get_module_factory(GetModuleHandleW(L"vgui2.dll"));
-        auto matSysFactory    = get_module_factory(GetModuleHandleW(L"materialsystem.dll"));
-        auto dataCacheFactory = get_module_factory(GetModuleHandleW(L"datacache.dll"));
-        auto vphysicsFactory  = get_module_factory(GetModuleHandleW(L"vphysics.dll"));
-        auto inputSysFactory  = get_module_factory(GetModuleHandleW(L"inputsystem.dll"));
+        auto engineFactory    = get_module_factory(GetModuleHandleA("engine.dll"));
+        auto clientFactory    = get_module_factory(GetModuleHandleA("client.dll"));
+        auto valveStdFactory  = get_module_factory(GetModuleHandleA("vstdlib.dll"));
+        auto vguiFactory      = get_module_factory(GetModuleHandleA("vguimatsurface.dll"));
+        auto vgui2Factory     = get_module_factory(GetModuleHandleA("vgui2.dll"));
+        auto matSysFactory    = get_module_factory(GetModuleHandleA("materialsystem.dll"));
+        auto dataCacheFactory = get_module_factory(GetModuleHandleA("datacache.dll"));
+        auto vphysicsFactory  = get_module_factory(GetModuleHandleA("vphysics.dll"));
+        auto inputSysFactory  = get_module_factory(GetModuleHandleA("inputsystem.dll"));
         
         g_CHLClient           = get_interface<IBaseClientDLL>      (clientFactory   , "VClient018");
         g_EntityList          = get_interface<IClientEntityList>   (clientFactory   , "VClientEntityList003");
@@ -53,13 +57,16 @@ namespace Interfaces
         g_PhysSurface         = get_interface<IPhysicsSurfaceProps>(vphysicsFactory , "VPhysicsSurfaceProps001");
         g_InputSystem         = get_interface<IInputSystem>        (inputSysFactory , "InputSystemVersion001");
 
-        auto client = GetModuleHandleW(L"client.dll");
-        auto engine = GetModuleHandleW(L"engine.dll");
-        auto dx9api = GetModuleHandleW(L"shaderapidx9.dll");
-		do {
-			g_ClientMode  =      **(IClientMode***)((*(uintptr_t**)g_CHLClient)[10] + 0x5);
-		} while (!g_ClientMode);
-                g_GlobalVars      =  **(CGlobalVarsBase***)(Utils::PatternScan(client, "A1 ? ? ? ? 5E 8B 40 10") + 1);
+        auto client = GetModuleHandleA("client.dll");
+        auto engine = GetModuleHandleA("engine.dll");
+        auto dx9api = GetModuleHandleA("shaderapidx9.dll");
+		do 
+        {
+		    g_ClientMode  =      **(IClientMode***)((*(uintptr_t**)g_CHLClient)[10] + 0x5);
+		} 
+        while (!g_ClientMode);
+
+        g_GlobalVars      =  **(CGlobalVarsBase***)(Utils::PatternScan(client, "A1 ? ? ? ? 5E 8B 40 10") + 1);
 		g_Input           =             *(CInput**)(Utils::PatternScan(client, "B9 ? ? ? ? F3 0F 11 04 24 FF 50 10") + 1);
 		g_MoveHelper      =      **(IMoveHelper***)(Utils::PatternScan(client, "8B 0D ? ? ? ? 8B 45 ? 51 8B D4 89 02 8B 01") + 2);
 		g_GlowObjManager  = *(CGlowObjectManager**)(Utils::PatternScan(client, "0F 11 05 ? ? ? ? 83 C8 01") + 3);
@@ -68,6 +75,10 @@ namespace Interfaces
 		g_ClientState     =     **(CClientState***)(Utils::PatternScan(engine, "A1 ? ? ? ? 8B 80 ? ? ? ? C3") + 1);
 		g_LocalPlayer     =       *(C_LocalPlayer*)(Utils::PatternScan(client, "8B 0D ? ? ? ? 83 FF FF 74 07") + 2);
 		g_WeaponSystem    = *(IWeaponSystem * *)(Utils::PatternScan(client, "8B 35 ? ? ? ? FF 10 0F B7 C0") + 2);
+
+        RandomInt = reinterpret_cast<decltype(RandomInt)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomInt"));
+        RandomSeed = reinterpret_cast<decltype(RandomSeed)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomSeed"));
+        RandomFloat = reinterpret_cast<decltype(RandomFloat)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomFloat"));
     }
 
     void Dump()
