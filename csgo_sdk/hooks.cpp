@@ -15,6 +15,9 @@
 #include "functions/grenade_pred.hpp"
 #include "functions/aimbot.hpp"
 #include "functions/backtrack.hpp"
+#include "functions/clantag.hpp"
+#include "functions/steam.hpp"
+
 
 #pragma intrinsic(_ReturnAddress)
 
@@ -51,7 +54,13 @@ namespace Hooks
 		clientmode_hook.hook_index(index::DoPostScreenSpaceEffects, hkDoPostScreenEffects);
 		clientmode_hook.hook_index(index::OverrideView, hkOverrideView);
 		sv_cheats.hook_index(index::SvCheatsGetBool, hkSvCheatsGetBool);
+		Utils::AttachConsole();
 
+		Utils::ConsolePrint("1");
+		CGameManager c;
+		c.GetNumberOfCurrentPlayers();
+		Utils::ConsolePrint("2");
+		
 		anti_cheat_fix();
 	}
 
@@ -149,6 +158,12 @@ namespace Hooks
 
 		oCreateMove(g_CHLClient, 0, sequence_number, input_sample_frametime, active);
 
+		Utils::ConsolePrint("1");
+		CGameManager c;
+		c.GetNumberOfCurrentPlayers();
+		Utils::ConsolePrint("2");
+
+
 		auto cmd = g_Input->GetUserCmd(sequence_number);
 		auto verified = g_Input->GetVerifiedCmd(sequence_number);
 
@@ -166,6 +181,11 @@ namespace Hooks
 
 		if (g_Configurations.misc_showranks && cmd->buttons & IN_SCORE)
 			g_CHLClient->DispatchUserMessage(CS_UM_ServerRankRevealAll, 0, 0, nullptr);
+		
+		if (g_Configurations.misc_clantag) {
+			Clantag::ChangeClanTag();
+		}
+		
 
 		Engine_Prediction::Get().Begin(cmd);
 		{

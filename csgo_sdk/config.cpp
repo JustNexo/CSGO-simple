@@ -174,6 +174,7 @@ void CConfig::SetupMisc()
 	SetupValue(g_Configurations.misc_thirdperson, false, "miscellaneous", "miscellaneous_misc_thirdperson");
 	SetupValue(g_Configurations.misc_showranks, false, "miscellaneous", "miscellaneous_misc_showranks");
 	SetupValue(g_Configurations.misc_watermark, false, "miscellaneous", "miscellaneous_misc_watermark");
+	SetupValue(g_Configurations.misc_clantag, false, "miscellaneous", "miscellaneous_misc_clantag");
 	SetupValue(g_Configurations.misc_thirdperson_dist, 130.f, "miscellaneous", "miscellaneous_misc_thirdperson_dist");
 	SetupValue(g_Configurations.misc_viewmodel_fov, 68, "miscellaneous", "miscellaneous_misc_viewmodel_fov");
 	SetupValue(g_Configurations.misc_mat_ambient_light_r, 0.f, "miscellaneous", "miscellaneous_misc_mat_ambient_light_r");

@@ -441,6 +441,7 @@ void RenderMiscTab()
         ImGui::Checkbox("No hands", &g_Configurations.misc_no_hands);
 		ImGui::Checkbox("Rank reveal", &g_Configurations.misc_showranks);
 		ImGui::Checkbox("Watermark", &g_Configurations.misc_watermark);
+		ImGui::Checkbox("Clantag", &g_Configurations.misc_clantag);
 
 		ImGui::NextColumn();
 

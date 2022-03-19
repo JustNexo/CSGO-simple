@@ -34,12 +34,10 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         InputSys::Get().Initialize();
 		Render::Get().Initialize();
         Menu::Get().Initialize();
-
+        
         Hooks::Initialize();
 
-        InputSys::Get().RegisterHotkey(VK_DELETE, [base]() {
-            g_Unload = true;
-        });
+       
 
         InputSys::Get().RegisterHotkey(VK_INSERT, [base]() {
             Menu::Get().Toggle();
@@ -48,12 +46,9 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         Utils::ConsolePrint("Finished.\n");
 		Utils::ConsolePrint("Built on: %s %s\n", __DATE__, __TIME__);
 
-        while(!g_Unload)
-            Sleep(1000);
-
         g_CVar->FindVar("crosshair")->SetValue(true);
 
-        FreeLibraryAndExitThread(static_cast<HMODULE>(base), 1);
+      //  FreeLibraryAndExitThread(static_cast<HMODULE>(base), 1);
     } 
 
     catch(const std::exception& ex) 

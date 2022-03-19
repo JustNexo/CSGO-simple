@@ -142,6 +142,7 @@ public:
 		CONFIGURATION(bool, misc_thirdperson, false);
 		CONFIGURATION(bool, misc_showranks, true);
 		CONFIGURATION(bool, misc_watermark, true);
+		CONFIGURATION(bool, misc_clantag, false);
 		CONFIGURATION(float, misc_thirdperson_dist, 130.f);
 		CONFIGURATION(int, misc_viewmodel_fov, 68);
 		CONFIGURATION(float, misc_mat_ambient_light_r, 0.0f);
@@ -190,4 +191,3 @@ public:
 };
 
 inline Configurations g_Configurations;
-inline bool g_Unload;
