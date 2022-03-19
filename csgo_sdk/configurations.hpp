@@ -144,6 +144,8 @@ public:
 		CONFIGURATION(bool, misc_watermark, true);
 		CONFIGURATION(bool, misc_clantag, false);
 		CONFIGURATION(float, misc_thirdperson_dist, 130.f);
+		CONFIGURATION(bool, misc_thirdperson_onkey, false);
+		CONFIGURATION(int, misc_thirdperson_key, 0);
 		CONFIGURATION(int, misc_viewmodel_fov, 68);
 		CONFIGURATION(int, misc_fakelag_value, 0);
 		CONFIGURATION(float, misc_mat_ambient_light_r, 0.0f);

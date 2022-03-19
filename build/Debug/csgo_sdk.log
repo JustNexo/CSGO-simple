@@ -1,2 +1,16 @@
-﻿  menu.cpp
+﻿  aimbot.cpp
+  backtrack.cpp
+  grenade_pred.cpp
+  visuals.cpp
+  hooks.cpp
+  imgui.cpp
+  imgui_draw.cpp
+  imgui_impl_dx9.cpp
+  imgui_impl_win32.cpp
+  imgui_widgets.cpp
+  main.cpp
+  menu.cpp
+  render.cpp
+  input.cpp
+  Создание кода...
   csgo_sdk.vcxproj -> C:\Users\1\source\repos\csgo_sdk\bin\Debug\cheat.dll

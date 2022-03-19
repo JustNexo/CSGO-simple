@@ -995,7 +995,9 @@ enum ImGuiBackendFlags_
 // Enumeration for PushStyleColor() / PopStyleColor()
 enum ImGuiCol_
 {
+    ImGuiCol_MenuTheme,
     ImGuiCol_Text,
+    ImGuiCol_TextShadow,
     ImGuiCol_TextDisabled,
     ImGuiCol_WindowBg,              // Background of normal windows
     ImGuiCol_ChildBg,               // Background of child windows
@@ -1034,10 +1036,13 @@ enum ImGuiCol_
     ImGuiCol_TabUnfocused,
     ImGuiCol_TabUnfocusedActive,
     ImGuiCol_PlotLines,
+    ImGuiCol_TitleButton,
     ImGuiCol_PlotLinesHovered,
+    ImGuiCol_TabText,
     ImGuiCol_PlotHistogram,
     ImGuiCol_PlotHistogramHovered,
     ImGuiCol_TextSelectedBg,
+    ImGuiCol_TabTextHovered,
     ImGuiCol_DragDropTarget,
     ImGuiCol_NavHighlight,          // Gamepad/keyboard: current highlighted item
     ImGuiCol_NavWindowingHighlight, // Highlight window when using CTRL+TAB

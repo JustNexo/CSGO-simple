@@ -18,6 +18,7 @@
 #include "functions/clantag.hpp"
 #include "functions/steam.hpp"
 #include "functions/fakelag.hpp"
+#include "render/bg.h"
 
 
 #pragma intrinsic(_ReturnAddress)
@@ -55,6 +56,7 @@ namespace Hooks
 		clientmode_hook.hook_index(index::DoPostScreenSpaceEffects, hkDoPostScreenEffects);
 		clientmode_hook.hook_index(index::OverrideView, hkOverrideView);
 		sv_cheats.hook_index(index::SvCheatsGetBool, hkSvCheatsGetBool);
+
 		Utils::AttachConsole();
 
 		/*Utils::ConsolePrint("1");
@@ -121,6 +123,8 @@ namespace Hooks
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
+		
+			
 		auto esp_drawlist = Render::Get().RenderScene();
 
 		Menu::Get().Render();

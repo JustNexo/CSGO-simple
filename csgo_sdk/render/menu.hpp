@@ -4,11 +4,19 @@
 #include <vector>
 #include <time.h>
 
+#include <d3dx9.h>
+
 #include "../sdk/utils/singleton.hpp"
 
 #include "../imgui/imgui.h"
 
 struct IDirect3DDevice9;
+
+
+namespace skeeet {
+    void Initialize();
+    inline IDirect3DTexture9* menuBg;
+}
 
 class Menu : public Singleton<Menu>
 {
@@ -18,6 +26,8 @@ public:
 
     void OnDeviceLost();
     void OnDeviceReset();
+    
+    void ZadeySheme();
 
     void Render();
 

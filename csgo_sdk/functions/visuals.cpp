@@ -7,6 +7,7 @@
 #include "../configurations.hpp"
 #include "../sdk/utils/math.hpp"
 #include "../sdk/utils/utils.hpp"
+#include "../sdk/utils/input.hpp"
 
 #include "../imgui/imgui.h"
 
@@ -17,6 +18,7 @@ RECT GetBBox(C_BaseEntity* ent)
 
 	if (!collideable)
 		return rect;
+
 
 	auto min = collideable->OBBMins();
 	auto max = collideable->OBBMaxs();
@@ -336,6 +338,8 @@ void Visuals::RenderItemEsp(C_BaseEntity* ent)
 	Render::Get().RenderText(itemstr, ImVec2((bbox.left + w * 0.5f) - sz.x * 0.5f, bbox.bottom + 1), 14.f, (Color)g_Configurations.color_esp_item);
 }
 
+bool toggled = false;
+
 void Visuals::ThirdPerson() 
 {
 	if (!g_LocalPlayer)
@@ -343,42 +347,50 @@ void Visuals::ThirdPerson()
 
 	if (g_Configurations.misc_thirdperson && g_LocalPlayer->IsAlive())
 	{
-		if (!g_Input->m_fCameraInThirdPerson)
-			g_Input->m_fCameraInThirdPerson = true;
-
-		float dist = g_Configurations.misc_thirdperson_dist;
-
-		QAngle *view = g_LocalPlayer->GetVAngles();
-		trace_t tr;
-		Ray_t ray;
-
-		Vector desiredCamOffset = Vector(cos(DEG2RAD(view->yaw)) * dist, sin(DEG2RAD(view->yaw)) * dist, sin(DEG2RAD(-view->pitch)) * dist);
-
-		ray.Init(g_LocalPlayer->GetEyePos(), (g_LocalPlayer->GetEyePos() - desiredCamOffset));
-		CTraceFilter traceFilter;
-		traceFilter.pSkip = g_LocalPlayer;
-		g_EngineTrace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
-
-		Vector diff = g_LocalPlayer->GetEyePos() - tr.endpos;
-
-		float distance2D = sqrt(abs(diff.x * diff.x) + abs(diff.y * diff.y)); 
-
-		bool horOK = distance2D > (dist - 2.0f);
-		bool vertOK = (abs(diff.z) - abs(desiredCamOffset.z) < 3.0f);
-
-		float cameraDistance;
-
-		if (horOK && vertOK)        
-			cameraDistance = dist;          
-		else
-		{
-			if (vertOK)       
-				cameraDistance = distance2D * 0.95f;
-			else            
-				cameraDistance = abs(diff.z) * 0.95f;
+		if (GetAsyncKeyState(g_Configurations.misc_thirdperson_key) & 1) {
+			toggled = !toggled;
 		}
-		g_Input->m_fCameraInThirdPerson = true;
-		g_Input->m_vecCameraOffset.z = cameraDistance;
+		if (toggled) 
+		{
+			if (!g_Input->m_fCameraInThirdPerson)
+				g_Input->m_fCameraInThirdPerson = true;
+
+			float dist = g_Configurations.misc_thirdperson_dist;
+
+			QAngle* view = g_LocalPlayer->GetVAngles();
+			trace_t tr;
+			Ray_t ray;
+
+			Vector desiredCamOffset = Vector(cos(DEG2RAD(view->yaw)) * dist, sin(DEG2RAD(view->yaw)) * dist, sin(DEG2RAD(-view->pitch)) * dist);
+
+			ray.Init(g_LocalPlayer->GetEyePos(), (g_LocalPlayer->GetEyePos() - desiredCamOffset));
+			CTraceFilter traceFilter;
+			traceFilter.pSkip = g_LocalPlayer;
+			g_EngineTrace->TraceRay(ray, MASK_SHOT, &traceFilter, &tr);
+
+			Vector diff = g_LocalPlayer->GetEyePos() - tr.endpos;
+
+			float distance2D = sqrt(abs(diff.x * diff.x) + abs(diff.y * diff.y));
+
+			bool horOK = distance2D > (dist - 2.0f);
+			bool vertOK = (abs(diff.z) - abs(desiredCamOffset.z) < 3.0f);
+
+			float cameraDistance;
+
+			if (horOK && vertOK)
+				cameraDistance = dist;
+			else
+			{
+				if (vertOK)
+					cameraDistance = distance2D * 0.95f;
+				else
+					cameraDistance = abs(diff.z) * 0.95f;
+			}
+			g_Input->m_fCameraInThirdPerson = true;
+			g_Input->m_vecCameraOffset.z = cameraDistance;
+		}
+		else
+			g_Input->m_fCameraInThirdPerson = false;
 	}
 	else
 		g_Input->m_fCameraInThirdPerson = false;

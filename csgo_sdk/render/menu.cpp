@@ -54,6 +54,8 @@ namespace ImGuiEx
         ImGuiIO& io = g.IO;
         const ImGuiStyle& style = g.Style;
 
+        
+
         const ImGuiID id = window->GetID(label);
         const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
         ImVec2 size = ImGui::CalcItemSize(size_arg, ImGui::CalcItemWidth(), label_size.y + style.FramePadding.y * 2.0f);
@@ -151,7 +153,7 @@ namespace ImGuiEx
 
         char buf_display[64] = "Key";
 
-        ImGui::RenderFrame(frame_bb.Min, frame_bb.Max, ImColor(75, 103, 210, 0), true, style.FrameRounding);
+        ImGui::RenderFrame(frame_bb.Min, frame_bb.Max, ImColor(0, 0, 0, 0), true, style.FrameRounding);
 
         if (*k != 0 && g.ActiveId != id) strcpy_s(buf_display, KeyNames[*k]);
         else if (g.ActiveId == id) strcpy_s(buf_display, "Press key");
@@ -239,6 +241,8 @@ namespace ImGuiEx
 template<size_t N>
 void render_tabs(char* (&names)[N], int& activetab, float w, float h, bool sameline)
 {
+   
+
     for(auto i = 0; i < N; ++i)
     {
         if(ImGui::Button(names[i], ImVec2{ w, h })) 
@@ -429,14 +433,19 @@ void RenderMiscTab()
 {
     ImGui::BeginGroup();
     {
+
         ImGui::Columns(2, nullptr, false);
 
         ImGui::Checkbox("Bunny hop", &g_Configurations.misc_bhop);
         ImGui::Checkbox("Auto strafe", &g_Configurations.misc_autostrafe);
-		ImGui::Checkbox("Third Person", &g_Configurations.misc_thirdperson);
+        ImGui::Checkbox("Third Person", &g_Configurations.misc_thirdperson);
+        ImGui::SameLine();
+        ImGuiEx::Hotkey("##Key bind", &g_Configurations.misc_thirdperson_key, ImVec2(100, 20));
 
-		if(&g_Configurations.misc_thirdperson)
-			ImGui::SliderFloat("Distance", &g_Configurations.misc_thirdperson_dist, 0.f, 150.f);
+
+        if (&g_Configurations.misc_thirdperson) {
+            ImGui::SliderFloat("Distance", &g_Configurations.misc_thirdperson_dist, 0.f, 150.f, "%.0f", 2.0f);
+        }
 
         ImGui::Checkbox("No hands", &g_Configurations.misc_no_hands);
 		ImGui::Checkbox("Rank reveal", &g_Configurations.misc_showranks);
@@ -744,9 +753,10 @@ void RenderConfigTab()
 void Menu::Initialize()
 {
 	CreateStyle();
+    ZadeySheme();
     _visible = true;
 }
-
+ 
 void Menu::Shutdown()
 {
     ImGui_ImplDX9_Shutdown();
@@ -774,7 +784,7 @@ void Menu::Render()
     const auto sidebar_size = get_sidebar_size();
     static int active_sidebar_tab = 0;
 
-    if (ImGui::Begin("csgo_sdk", &_visible, ImGuiWindowFlags_NoCollapse))
+    if (ImGui::Begin("csgo_sdk", &_visible, ImGuiWindowFlags_NoDecoration))
     {
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
         {
@@ -825,19 +835,70 @@ void Menu::Toggle()
     _visible = !_visible;
 }
 
+
+void Menu::ZadeySheme()
+{
+    _style.Colors[ImGuiCol_Text] = ImVec4(0.78f, 0.78f, 0.78f, 1.00f);
+    _style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.59f, 0.59f, 0.59f, 1.00f);
+    _style.Colors[ImGuiCol_WindowBg] = ImVec4(0.045f, 0.045f, 0.045f, 1.00f);
+    _style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.11f, 0.11f, 0.11f, 0.00f);
+    _style.Colors[ImGuiCol_Border] = ImVec4(0.07f, 0.07f, 0.07f, 1.00f);
+    _style.Colors[ImGuiCol_FrameBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.09f);
+    _style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
+    _style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.04f, 0.04f, 0.04f, 0.88f);
+    _style.Colors[ImGuiCol_TitleBg] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+    _style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 0.20f);
+    _style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+    _style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.35f, 0.35f, 0.35f, 1.00f);
+    _style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.13f, 0.13f, 0.13f, 1.00f);
+    _style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
+    _style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
+    _style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+    _style.Colors[ImGuiCol_SliderGrab] = ImVec4(1.00f, 1.00f, 1.00f, 0.59f);
+    _style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
+    _style.Colors[ImGuiCol_Button] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
+    _style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
+    _style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
+    _style.Colors[ImGuiCol_Header] = ImVec4(0.24f, 0.40f, 0.95f, 1.00f);
+    _style.Colors[ImGuiCol_Separator] = ImVec4(0.40f, 0.40f, 0.40f, 1.00f);
+    _style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.24f, 0.40f, 0.95f, 0.59f);
+    _style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
+    _style.Colors[ImGuiCol_ColumnHovered] = ImVec4(0.70f, 0.02f, 0.60f, 0.22f);
+    ImGui::GetStyle() = _style;
+}
+
+
 void Menu::CreateStyle()
 {
 	ImGui::StyleColorsDark();
 	ImGui::SetColorEditOptions(ImGuiColorEditFlags_HEX);
+
+    _style.WindowMinSize = ImVec2(30, 30);
+    _style.FramePadding = ImVec2(4, 3);
+    _style.ItemSpacing = ImVec2(8, 4);
+    _style.Alpha = 1.f;
+    _style.WindowRounding = 0.0f;
+    _style.IndentSpacing = 6.0f;
+    _style.ItemInnerSpacing = ImVec2(3, 4);
+    _style.ColumnsMinSpacing = 50.0f;
+    _style.GrabMinSize = 14.0f;
+    _style.GrabRounding = 16.0f;
+    _style.ScrollbarSize = 2.0f;
+    _style.ScrollbarRounding = 0.0f;
+    _style.AntiAliasedLines = true;
+    _style.WindowTitleAlign = ImVec2(0.5, 0.5);
+    _style.FrameRounding = 5.f;
+    _style.ChildRounding = 0.f;
+
+    _style.WindowRounding = 0.f;
+    _style.FramePadding = ImVec2(4, 1);
+    _style.ScrollbarSize = 10.f;
+    _style.ScrollbarRounding = 0.f;
+    _style.GrabMinSize = 5.f;
+
 	_style.FrameRounding = 0.f;
 	_style.WindowRounding = 0.f;
 	_style.ChildRounding = 0.f;
-	_style.Colors[ImGuiCol_Button] = ImVec4(0.260f, 0.590f, 0.980f, 0.670f);
-	_style.Colors[ImGuiCol_Header] = ImVec4(0.260f, 0.590f, 0.980f, 0.670f);
-	_style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.260f, 0.590f, 0.980f, 1.000f);
-	_style.Colors[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.30f, 1.0f);
-	_style.Colors[ImGuiCol_WindowBg] = ImVec4(0.000f, 0.009f, 0.120f, 0.940f);
-	_style.Colors[ImGuiCol_PopupBg] = ImVec4(0.076f, 0.143f, 0.209f, 1.000f);
 	ImGui::GetStyle() = _style;
 }
 
