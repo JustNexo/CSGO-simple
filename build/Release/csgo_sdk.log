@@ -1,7 +1,25 @@
-﻿  main.cpp
+﻿  config.cpp
+  aimbot.cpp
+  autowall.cpp
+  backtrack.cpp
+  bhop.cpp
+  chams.cpp
+  clantag.cpp
+  glow.cpp
+  grenade_pred.cpp
+  misc.cpp
+  steam.cpp
+  visuals.cpp
+  hooks.cpp
+  main.cpp
+  menu.cpp
+  render.cpp
+  csgostructs.cpp
+  sdk.cpp
+  utils.cpp
   Создание кода
-  2 of 3433 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    27 functions had inline decision re-evaluated but remain unchanged
+  6 of 3434 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    26 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   csgo_sdk.vcxproj -> C:\Users\1\source\repos\csgo_sdk\bin\Release\cheat.dll

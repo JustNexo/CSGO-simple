@@ -1015,7 +1015,7 @@ inline void Destruct(T* pMemory)
     pMemory->~T();
 
 #ifdef _DEBUG
-    memset(pMemory, 0xDD, sizeof(T));
+   // memset(pMemory, 0xDD, sizeof(T));
 #endif
 }
 

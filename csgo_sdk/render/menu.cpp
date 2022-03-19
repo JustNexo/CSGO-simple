@@ -446,6 +446,7 @@ void RenderMiscTab()
 		ImGui::NextColumn();
 
         ImGui::SliderInt("Viewmodel FOV:", &g_Configurations.misc_viewmodel_fov, 68, 120);
+        ImGui::SliderInt("Fakelag:", &g_Configurations.misc_fakelag_value, 0, 32);
 		ImGui::Text("Postprocessing:");
         ImGui::SliderFloat("Red", &g_Configurations.misc_mat_ambient_light_r, 0, 1);
         ImGui::SliderFloat("Green", &g_Configurations.misc_mat_ambient_light_g, 0, 1);

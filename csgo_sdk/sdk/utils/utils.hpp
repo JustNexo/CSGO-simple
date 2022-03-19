@@ -31,4 +31,6 @@ namespace Utils
 
     void SetClantag(const char* tag);
     void SetName(const char* name);
+    void ChatSpam();
+    void FakeLag();
 }

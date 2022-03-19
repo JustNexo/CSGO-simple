@@ -938,8 +938,11 @@ CODE
 #include <stdint.h>     // intptr_t
 #endif
 
+
+
 // Debug options
-#define IMGUI_DEBUG_NAV_SCORING     0   // Display navigation scoring preview when hovering items. Display last moving direction matches when holding CTRL
+#define IMGUI
+#define IMGUI_DEBUG_NAV_SCORING     0 // Display navigation scoring preview when hovering items. Display last moving direction matches when holding CTRL
 #define IMGUI_DEBUG_NAV_RECTS       0   // Display the reference navigation rectangle for each window
 
 // Visual Studio warnings

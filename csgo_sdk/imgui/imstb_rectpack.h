@@ -494,7 +494,7 @@ static stbrp__findresult stbrp__skyline_pack_rectangle(stbrp_context *context, i
       cur->x = (stbrp_coord) (res.x + width);
 
 #ifdef _DEBUG
-   cur = context->active_head;
+/*   cur = context->active_head;
    while (cur->x < context->width) {
       STBRP_ASSERT(cur->x < cur->next->x);
       cur = cur->next;
@@ -514,7 +514,7 @@ static stbrp__findresult stbrp__skyline_pack_rectangle(stbrp_context *context, i
          ++count;
       }
       STBRP_ASSERT(count == context->num_nodes+2);
-   }
+   }*/
 #endif
 
    return res;

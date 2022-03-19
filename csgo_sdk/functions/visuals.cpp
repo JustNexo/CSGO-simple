@@ -407,7 +407,7 @@ void Visuals::DrawFOV()
 
 		float radiusFOV = tanf(DEG2RAD(LegitBot::Get().GetFov())) / tanf(screenFov) * center.x;
 
-		Render::Get().RenderCircle(center.x, center.y, radiusFOV, 32, Color(0, 0, 0, 100));
+	//	Render::Get().RenderCircle(center.x, center.y, radiusFOV, 32, Color(0, 0, 0, 100));
 
 		if (settings.silent) {
 			float silentRadiusFOV = tanf(DEG2RAD(settings.silent_fov)) / tanf(screenFov) * center.x;

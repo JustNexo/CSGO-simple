@@ -296,4 +296,20 @@ namespace Utils {
 
         nameConvar->SetValue(name);
     }
+
+    void ChatSpam() 
+    {
+      /*  const char* m_pTestCommand = "say \"SendMessageA Test\"";
+
+        const HWND m_hEngine = FindWindowA("Valve001", 0);
+        COPYDATASTRUCT m_cData;
+        m_cData.cbData = strlen(m_pTestCommand) + 1;
+        m_cData.dwData = 0;
+        m_cData.lpData = (void*)m_pTestCommand;
+        SendMessageA(m_hEngine, WM_COPYDATA, 0, (LPARAM)&m_cData);*/
+    }
+
+    void FakeLag() {
+        static auto choked = (int(__fastcall*)(const char*, const char*))PatternScan(GetModuleHandleW(L"engine.dll"), "B3 01 8B 01 8B 40 10 FF D0 84 C0 74 0F 80 BF ? ? ? ? ? 0F 84");
+    }
 }

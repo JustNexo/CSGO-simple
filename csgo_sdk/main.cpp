@@ -1,4 +1,4 @@
-#define NOMINMAX
+﻿#define NOMINMAX
 #include <Windows.h>
 
 #include "sdk/sdk.hpp"
@@ -17,12 +17,15 @@ DWORD WINAPI OnDllAttach(LPVOID base)
 	while (!GetModuleHandleA("serverbrowser.dll"))
 		Sleep(1000);
 
-#ifdef _DEBUG
+    
+
     Utils::AttachConsole();
-#endif
+
 
     try 
     {
+        uint8_t* _colora = 0;
+
         Utils::ConsolePrint("Initializing...\n");
 
         CConfig::Get().Setup();
@@ -46,10 +49,23 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         Utils::ConsolePrint("Finished.\n");
 		Utils::ConsolePrint("Built on: %s %s\n", __DATE__, __TIME__);
 
+        g_EngineClient->ExecuteClientCmd("clear");
+
+        g_CVar->ConsoleColorPrintf(Color::Red, R"( 
+  _   _   _____  __  __   ___      _   _    ___     ___    _  __
+ | \ | | | ____| \ \/ /  / _ \    | | | |  / _ \   / _ \  | |/ /
+ |  \| | |  _|    \  /  | | | |   | |_| | | | | | | | | | | ' / 
+ | |\  | | |___   /  \  | |_| |   |  _  | | |_| | | |_| | | . \ 
+ |_| \_| |_____| /_/\_\  \___/    |_| |_|  \___/   \___/  |_|\_\                                                         
+	)");
+
         g_CVar->FindVar("crosshair")->SetValue(true);
 
       //  FreeLibraryAndExitThread(static_cast<HMODULE>(base), 1);
+       
     } 
+
+    
 
     catch(const std::exception& ex) 
     {
@@ -59,8 +75,15 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         Utils::ConsoleReadKey();
         Utils::DetachConsole();
 
+
         FreeLibraryAndExitThread(static_cast<HMODULE>(base), 1);
     }
+
+}
+
+void SetColor(int _r, int _g, int _b, int _a = 0)
+{
+     //_colora = (unsigned char)_r;
 }
 
 BOOL WINAPI OnDllDetach()

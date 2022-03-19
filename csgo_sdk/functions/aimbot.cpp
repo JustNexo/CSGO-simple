@@ -107,6 +107,7 @@ void LegitBot::RCS(QAngle& angle, C_BasePlayer* target, bool should_run)
 	}
 
 	QAngle punch = g_LocalPlayer->m_aimPunchAngle() * g_CVar->FindVar("weapon_recoil_scale")->GetFloat();
+	
 
 	auto weapon = g_LocalPlayer->m_hActiveWeapon().Get();
 	if (weapon && weapon->m_flNextPrimaryAttack() > g_GlobalVars->curtime) 

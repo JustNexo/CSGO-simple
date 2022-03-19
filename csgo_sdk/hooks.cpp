@@ -17,6 +17,7 @@
 #include "functions/backtrack.hpp"
 #include "functions/clantag.hpp"
 #include "functions/steam.hpp"
+#include "functions/fakelag.hpp"
 
 
 #pragma intrinsic(_ReturnAddress)
@@ -56,11 +57,11 @@ namespace Hooks
 		sv_cheats.hook_index(index::SvCheatsGetBool, hkSvCheatsGetBool);
 		Utils::AttachConsole();
 
-		Utils::ConsolePrint("1");
+		/*Utils::ConsolePrint("1");
 		CGameManager c;
 		c.GetNumberOfCurrentPlayers();
 		Utils::ConsolePrint("2");
-		
+		*/
 		anti_cheat_fix();
 	}
 
@@ -158,11 +159,11 @@ namespace Hooks
 
 		oCreateMove(g_CHLClient, 0, sequence_number, input_sample_frametime, active);
 
-		Utils::ConsolePrint("1");
+		/*Utils::ConsolePrint("1");
 		CGameManager c;
 		c.GetNumberOfCurrentPlayers();
 		Utils::ConsolePrint("2");
-
+		*/
 
 		auto cmd = g_Input->GetUserCmd(sequence_number);
 		auto verified = g_Input->GetVerifiedCmd(sequence_number);
@@ -184,8 +185,23 @@ namespace Hooks
 		
 		if (g_Configurations.misc_clantag) {
 			Clantag::ChangeClanTag();
+			Utils::ChatSpam();
 		}
 		
+		int Choke = g_Configurations.misc_fakelag_value;
+
+		static int iFakeLag = -1;
+		iFakeLag++;
+
+		if (iFakeLag <= Choke && iFakeLag > -1)
+		{
+			bSendPacket = false;
+		}
+		else
+		{
+			bSendPacket = true;
+			iFakeLag = -1;
+		}
 
 		Engine_Prediction::Get().Begin(cmd);
 		{
@@ -200,6 +216,7 @@ namespace Hooks
 		verified->m_cmd = *cmd;
 		verified->m_crc = cmd->GetChecksum();
 	}
+
 
 	__declspec(naked) void __fastcall hkCreateMove_Proxy(void* _this, int, int sequence_number, float input_sample_frametime, bool active)
 	{

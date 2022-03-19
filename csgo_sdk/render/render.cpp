@@ -7,6 +7,7 @@
 #include "../sdk/csgostructs.hpp"
 #include "../sdk/utils/input.hpp"
 #include "../sdk/utils/math.hpp"
+#include "../sdk/sdk.hpp"
 
 #include "menu.hpp"
 
@@ -58,8 +59,12 @@ void Render::BeginScene()
 	draw_list->Clear();
 	draw_list->PushClipRectFullScreen();
 
-	if (g_Configurations.misc_watermark)
-		Render::Get().RenderText("csgo_sdk", 10, 5, 18.f, (Color)g_Configurations.color_watermark, false, true, g_pSecondFont);
+
+
+	if (g_Configurations.misc_watermark) {
+		Render::Get().RenderText("nexoh00k", 10, 5, 18.f, (Color)g_Configurations.color_watermark, false, true, g_pSecondFont);
+	}
+
 
 	if (g_EngineClient->IsInGame() && g_LocalPlayer && g_Configurations.esp_enabled)
 		Visuals::Get().AddToDrawList();

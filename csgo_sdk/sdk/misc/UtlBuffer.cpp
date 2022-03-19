@@ -296,7 +296,7 @@ END_CUSTOM_CHAR_CONVERSION(CUtlCStringConversion, s_StringCharConversion, "\"", 
         {
 #ifdef _DEBUG
             // If the buffer is empty, there is no opportunity for this stuff to fail
-            if(TellMaxPut() != 0) {
+       /*     if (TellMaxPut() != 0) {
                 if(IsText()) {
                     if(bIsText) {
                         assert(ContainsCRLF() == bContainsCRLF);
@@ -308,7 +308,7 @@ END_CUSTOM_CHAR_CONVERSION(CUtlCStringConversion, s_StringCharConversion, "\"", 
                         assert(bContainsCRLF);
                     }
                 }
-            }
+            }*/
 #endif
 
             if(bIsText) {
